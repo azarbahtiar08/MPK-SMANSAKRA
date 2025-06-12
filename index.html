@@ -1,0 +1,604 @@
+import React, { useState } from 'react';
+import { Book, Users, ClipboardList, TrendingUp, Home, Menu } from 'lucide-react';
+
+// Main App component
+export default function App() {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  // Data for the website.
+  // Pastikan Anda meninjau dan melengkapi data ini dengan informasi aktual.
+  const dummyData = {
+    adArt: [
+      {
+        title: "BAB I: KETENTUAN UMUM",
+        content: "Pasal 1: Nama organisasi ini adalah Majelis Permusyawaratan Kelas SMA Negeri 1 Karanganyar, disingkat MPK SMA Negeri 1 Karanganyar.\n\nPasal 2: MPK SMA Negeri 1 Karanganyar berkedudukan di Sekolah Menengah Atas Negeri 1 Karanganyar, Jalan AW. Monginsidi No. 3 Kabupaten Karanganyar. Kode pos 5771. \n\nPasal 3: MPK adalah organisasi legislatif siswa yang berfungsi mengawasi, mengevaluasi, dan menampung aspirasi siswa."
+      },
+      {
+        title: "BAB II: TUJUAN DAN FUNGSI",
+        content: "Pasal 4: MPK bertujuan untuk mewujudkan siswa/i SMA Negeri 1 Karanganyar yang beriman dan bertakwa kepada Tuhan Yang Maha Esa, berakhlak mulia, berprestasi, kreatif, inovatif, mandiri, dan berbudaya lingkungan.\n\nPasal 5: Fungsi MPK meliputi fungsi legislasi, fungsi pengawasan, fungsi aspirasi, dan fungsi advokasi."
+      },
+      {
+        title: "BAB III: KEANGGOTAAN",
+        content: "Pasal 6: Anggota MPK terdiri dari perwakilan setiap kelas yang dipilih melalui musyawarah. \n\nPasal 7: Masa jabatan anggota MPK adalah satu tahun ajaran."
+      },
+      {
+        title: "BAB IV: HAK DAN KEWAJIBAN",
+        content: "Pasal 8: Setiap anggota MPK memiliki hak untuk mengeluarkan pendapat, memilih, dan dipilih.\n\nPasal 9: Setiap anggota MPK wajib menjalankan tugas dan menjaga nama baik organisasi."
+      },
+      {
+        title: "BAB V: DEWAN PENGURUS",
+        content: "Pasal 10: Dewan Pengurus MPK terdiri dari Ketua Umum, Ketua I, Ketua II, Sekretaris Umum, Sekretaris I, Sekretaris II, Bendahara Umum, Bendahara I, Bendahara II, dan Kepala Komisi. \n\nPasal 11: Pembagian tugas diatur lebih lanjut dalam Tata Tertib MPK."
+      },
+       {
+        title: "BAB VI: KOMISI-KOMISI",
+        content: "Pasal 12: MPK memiliki empat komisi, yaitu Komisi A (Bidang Legislasi dan Advokasi), Komisi B (Bidang Evaluasi dan Pengawasan), Komisi C (Bidang Aspirasi), dan Komisi D (Bidang Administrasi dan Umum)."
+      },
+      {
+        title: "BAB VII: KEUANGAN",
+        content: "Pasal 13: Sumber keuangan MPK berasal dari iuran anggota, dana kegiatan, dan sumber lain yang sah dan tidak mengikat."
+      },
+      {
+        title: "BAB VIII: PERUBAHAN ANGGARAN DASAR",
+        content: "Pasal 14: Perubahan Anggaran Dasar hanya dapat dilakukan dalam Musyawarah Anggota Tahunan (MUSTA) dan disetujui oleh sekurang-kurangnya 2/3 dari jumlah anggota yang hadir."
+      },
+       {
+        title: "BAB IX: PENUTUP",
+        content: "Pasal 15: Hal-hal yang belum diatur dalam Anggaran Dasar ini akan diatur dalam Anggaran Rumah Tangga atau peraturan MPK lainnya."
+      },
+    ],
+    kepanitiaan: [
+      {
+        jabatan: "Ketua Umum",
+        nama: "Haruming Sekar Callista Mukti (Generasi 14)",
+        tugas: "Bertanggung jawab atas seluruh kinerja dan kegiatan MPK, memimpin rapat internal dan eksternal, mengkoordinasikan seluruh pengurus MPK."
+      },
+      {
+        jabatan: "Ketua I",
+        nama: "Budi Santoso (XII IPS 2)",
+        tugas: "Membantu Ketua Umum dalam mengkoordinasikan Komisi A dan B, mewakili Ketua Umum jika berhalangan."
+      },
+      {
+        jabatan: "Ketua II",
+        nama: "Citra Dewi (XI IPA 3)",
+        tugas: "Membantu Ketua Umum dalam mengkoordinasikan Komisi C dan D, mengurus administrasi dan hubungan eksternal."
+      },
+      {
+        jabatan: "Komisi A (Legislasi & Advokasi)",
+        nama: "Koordinator: Deni Ramadhan (XI IPS 1)",
+        anggota: ["Eka Sari (X IPA 1)", "Fajar Setiawan (X IPS 2)"],
+        tugas: "Merumuskan AD/ART dan peraturan organisasi, menampung dan menyalurkan aspirasi siswa."
+      },
+      {
+        jabatan: "Komisi B (Pengawasan & Evaluasi)",
+        nama: "Koordinator: Galih Perkasa (XI IPA 2)",
+        anggota: ["Hana Lestari (X IPA 2)", "Imam Cahyono (X IPS 3)"],
+        tugas: "Mengawasi pelaksanaan program kerja OSIS, mengevaluasi kinerja pengurus OSIS dan kegiatan siswa."
+      },
+      {
+        jabatan: "Komisi C (Hubungan Masyarakat)",
+        nama: "Koordinator: Jihan Fadhilah (XI IPS 3)",
+        anggota: ["Kevin Wijaya (X IPA 3)", "Linda Permata (X IPS 4)"],
+        tugas: "Menjalin komunikasi dengan pihak sekolah dan organisasi lain, mengelola publikasi dan informasi MPK."
+      },
+      {
+        jabatan: "Komisi D (Pengembangan Organisasi)",
+        nama: "Koordinator: Maya Fitriani (XI IPA 4)",
+        anggota: ["Naufal Rizky (X IPA 4)", "Putri Rahayu (X IPS 5)"],
+        tugas: "Merencanakan kaderisasi anggota MPK, mengembangkan potensi anggota dan meningkatkan kualitas organisasi."
+      },
+    ],
+    gbhk: [
+      {
+        program: "Musyawarah Anggota Tahunan (MUSTA)",
+        deskripsi: "Rapat besar tahunan untuk membahas laporan pertanggungjawaban, evaluasi kinerja, dan pemilihan ketua MPK periode berikutnya.",
+        status: "Wajib",
+        semester: "Akhir Tahun Ajaran"
+      },
+      {
+        program: "Rapat Koordinasi Komisi Bulanan",
+        deskripsi: "Pertemuan rutin setiap komisi untuk melaporkan perkembangan tugas, merencanakan aksi, dan mengidentifikasi isu.",
+        status: "Wajib",
+        semester: "Setiap Bulan"
+      },
+      {
+        program: "Penjaringan Aspirasi Siswa (PAS)",
+        deskripsi: "Survei atau forum terbuka untuk mengumpulkan masukan, saran, dan keluhan dari seluruh siswa SMA Negeri 1 Karanganyar.",
+        status: "Wajib",
+        semester: "Per Semester"
+      },
+      {
+        program: "Evaluasi Program Kerja OSIS",
+        deskripsi: "Melakukan peninjauan dan penilaian terhadap program kerja OSIS yang telah atau sedang berjalan.",
+        status: "Wajib",
+        semester: "Triwulan"
+      },
+      {
+        program: "Pendidikan & Latihan Dasar (DIKLATSAR) MPK",
+        deskripsi: "Pelatihan untuk calon anggota MPK baru guna memahami fungsi, tugas, dan nilai-nilai organisasi.",
+        status: "Wajib",
+        semester: "Awal Tahun Ajaran"
+      },
+    ],
+    // Data anggota MPK dari Generasi 1 Hingga Sekarang (Generasi 16)
+    members: (() => {
+      const allGenerations = [];
+
+      // Data Anggota MPK Generasi 14 (dari DATA GEN 14_NEW.docx)
+      const gen14Data = `NAMA,KELAS,NIS
+Syahru Syabana Setiyanto,XI-F1,18010
+Joevincky Chriscensio,XI-F3,18212
+Febriana Adnindya Putri,XI-F4,18106
+Junko Jurdan,XI-F4,18287
+Panji Putra Sailendra,XI-F4,18259
+Cerlicia Putri Tanjois,XI-F5,18063
+Rafi Aji Hefa Saputra,XI-F5,18297
+Rijal Ahnaf Makarim,XI-F5,18187
+Angitya Lintang Sari,XI-F6,18096
+Fauzi Andhika Darojat,XI-F6,18244
+Afina Eva Nur Andini,XI-F7,17913
+Haruming Sekar Callista Mukti,XI-F7,17926
+Jamil Surya Wibawa,XI-F7,18033
+Ely Yuni Lestari,XI-F8,18313
+Prasasti Ayu Wardhani,XI-F8,18228
+Raditya Zaki Candra,XI-F8,18154
+Alfiras Rizky Aswinanda,XI-F9,18022
+Aysiyah Resti Maharani,XI-F9,17986
+Natashya Yogy Maqfyroh,XI-F9,17970
+Rauzan Rauf Musthofa,XI-F9,17975
+Rima Astra Ananda,XI-F10,18118
+Adzhar Bahtiar Setiawan,XI-F11,18162
+Salsabila Az-Zahra Aveananta,XI-F11,18189
+Averina Carin Nydia Arminta,XI=F12,17916`;
+
+      const parsedGen14 = gen14Data.split('\n').slice(1).map(row => {
+        const [name, kelas, nis] = row.split(',');
+        return { name: name.trim(), jabatan: 'Anggota', angkatan: '2023', kelas: kelas.trim(), nis: nis.trim() };
+      });
+      allGenerations.push({ generation: 14, members: parsedGen14 });
+
+      // Data Anggota MPK Generasi 15 (dari DATA GEN 15.docx - sebelumnya)
+      const gen15Data = [
+          { name: "Aisha Rahma Aristawati", jabatan: "Anggota", angkatan: "2023", kelas: "XE-1" },
+          { name: "Nadim Riananda Putra W", jabatan: "Anggota", angkatan: "2023", kelas: "XE-1" },
+          { name: "Nuru'ul Dearania", jabatan: "Anggota", angkatan: "2023", kelas: "XE-1" },
+          { name: "Mangi Sinatrio Pinandhito", jabatan: "Anggota", angkatan: "2023", kelas: "XE-1" },
+          { name: "Aprilia Uswah", jabatan: "Anggota", angkatan: "2023", kelas: "XE-2" },
+          { name: "Awanis Dwi Putri Indianto", jabatan: "Anggota", angkatan: "2023", kelas: "XE-3" },
+          { name: "Aegidiusanto Wahyu Kristianto", jabatan: "Anggota", angkatan: "2023", kelas: "XE-3" },
+          { name: "Najla'inas Purnomo", jabatan: "Anggota", angkatan: "2023", kelas: "XE-4" },
+          { name: "Keyla Khairani Al Khafili", jabatan: "Anggota", angkatan: "2023", kelas: "XE-5" },
+          { name: "Rahma Aulia", jabatan: "Anggota", angkatan: "2023", kelas: "XE-6" },
+          { name: "Ekharezky", jabatan: "Anggota", angkatan: "2023", kelas: "XE-7" },
+          { name: "Fadhliansyah Rohmana", jabatan: "Anggota", angkatan: "2023", kelas: "XE-8" },
+          { name: "Karisma Novita Putri", jabatan: "Anggota", angkatan: "2023", kelas: "XE-8" },
+          { name: "Raihan Noviansyah", jabatan: "Anggota", angkatan: "2023", kelas: "XE-8" },
+          { name: "Adissa Ramadhani Budi", jabatan: "Anggota", angkatan: "2023", kelas: "XE-9" },
+          { name: "Nikita Prameswari", jabatan: "Anggota", angkatan: "2023", kelas: "XE-10" },
+          { name: "Zen Oasis Ahmadinejad", jabatan: "Anggota", angkatan: "2023", kelas: "XE-10" },
+          { name: "Nisrina Dhea Aisha", jabatan: "Anggota", angkatan: "2023", kelas: "XE-11" },
+          { name: "Rayyan Alauddin Moriojo", jabatan: "Anggota", angkatan: "2023", kelas: "XE-11" },
+          { name: "Arkha Gorra", jabatan: "Anggota", angkatan: "2023", kelas: "XE-11" },
+          { name: "Anshal Qothofa Furqon Nadhif", jabatan: "Anggota", angkatan: "2023", kelas: "XE-12" },
+          { name: "Aleysia Salwa Rahman", jabatan: "Anggota", angkatan: "2023", kelas: "XE-12" },
+        // Lanjutkan tambahkan anggota Gen 15 jika ada data lainnya dari dokumen
+      ];
+      allGenerations.push({ generation: 15, members: gen15Data });
+
+
+      // Data Anggota MPK Generasi 16 (Current Generation)
+      const gen16MembersCount = Math.floor(Math.random() * (24 - 20 + 1)) + 20;
+      const gen16Members = Array.from({ length: gen16MembersCount }, (_, memberIndex) => ({
+        name: `Anggota ${memberIndex + 1} Generasi 16`,
+        jabatan: memberIndex === 0 ? "Ketua Kelas" : "Anggota",
+        angkatan: `2024`
+      }));
+      allGenerations.push({ generation: 16, members: gen16Members });
+
+
+      // Dummy data for Generations 1-13 (masing-masing 20-24 anggota)
+      for (let i = 13; i >= 1; i--) { // Iterasi mundur dari 13 ke 1
+        const generation = i;
+        const count = Math.floor(Math.random() * (24 - 20 + 1)) + 20; // 20-24 anggota
+        const angkatanYear = 2024 - (16 - generation); // Menyesuaikan tahun angkatan
+        allGenerations.unshift({ // Tambahkan ke awal array
+          generation: generation,
+          members: Array.from({ length: count }, (_, memberIndex) => ({
+            name: `Anggota ${memberIndex + 1} Generasi ${generation}`,
+            jabatan: memberIndex === 0 ? "Ketua Kelas" : "Anggota",
+            angkatan: `${angkatanYear}`
+          }))
+        });
+      }
+      return allGenerations;
+    })(),
+  };
+
+  const navItems = [
+    { name: 'Beranda', icon: Home, page: 'home' },
+    { name: 'Tentang MPK', icon: Book, page: 'about' },
+    { name: 'Struktur Organisasi', icon: Users, page: 'structure' },
+    { name: 'Program Kerja', icon: ClipboardList, page: 'programs' },
+    { name: 'Anggota MPK', icon: TrendingUp, page: 'members' },
+  ];
+
+  // Component for Navigation Bar
+  const Navbar = () => (
+    <nav className="fixed w-full z-50 bg-sky-200 shadow-lg font-inter">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+        {/* Logo and Title */}
+        <div className="flex items-center space-x-3">
+          {/* Menggunakan contentFetchId untuk logo MPK yang diunggah */}
+          <img src="uploaded:mpk.png-c5bb6800-f664-4ff8-8d2a-e22585bede79" alt="MPK Logo" className="w-12 h-12 rounded-full shadow-md" />
+          <span className="text-blue-800 text-xl font-bold tracking-tight">MPK SMA Negeri 1 Karanganyar</span>
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-6">
+          {navItems.map(item => (
+            <button
+              key={item.page}
+              onClick={() => setCurrentPage(item.page)}
+              className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-300
+                ${currentPage === item.page ? 'bg-yellow-400 text-blue-900 shadow-md transform scale-105' : 'text-blue-700 hover:bg-sky-300 hover:text-blue-900'}
+                focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-75`}
+            >
+              <item.icon size={18} />
+              <span className="font-medium">{item.name}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button onClick={() => setIsNavOpen(!isNavOpen)} className="p-2 rounded-md text-blue-700 hover:bg-sky-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+            <Menu size={24} />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Navigation Dropdown */}
+      {isNavOpen && (
+        <div className="md:hidden bg-sky-100 shadow-inner py-2 px-4 animate-fade-in-down">
+          {navItems.map(item => (
+            <button
+              key={item.page}
+              onClick={() => { setCurrentPage(item.page); setIsNavOpen(false); }}
+              className={`block w-full text-left px-4 py-2 my-1 rounded-md transition-all duration-200
+                ${currentPage === item.page ? 'bg-yellow-400 text-blue-900 font-semibold' : 'text-blue-700 hover:bg-sky-300'}
+                focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-75`}
+            >
+              <item.icon size={18} className="inline-block mr-2" />
+              {item.name}
+            </button>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+
+  // Home Section Component
+  const HomeSection = () => (
+    <section className="min-h-screen bg-gradient-to-br from-blue-100 to-sky-300 flex items-center justify-center p-4 pt-24">
+      <div className="text-center bg-white p-8 rounded-xl shadow-2xl max-w-4xl w-full mx-auto animate-fade-in-up">
+        <div className="flex justify-center mb-6 space-x-6">
+          {/* Menggunakan contentFetchId untuk logo SMA N 1 yang diunggah */}
+          <img src="uploaded:sma n 1.png-19be15f0-cc9c-4979-b473-23661c60f8ac" alt="SMA N 1 Logo" className="w-32 h-32 rounded-full border-4 border-blue-400 shadow-lg" />
+          {/* Menggunakan contentFetchId untuk logo MPK yang diunggah */}
+          <img src="uploaded:mpk.png-c5bb6800-f664-4ff8-8d2a-e22585bede79" alt="MPK Logo" className="w-32 h-32 rounded-full border-4 border-yellow-400 shadow-lg" />
+        </div>
+        <h1 className="text-5xl font-extrabold text-blue-800 mb-4 leading-tight">
+          Selamat Datang di Portal Resmi <br className="hidden sm:inline" /> <span className="text-yellow-600">Majelis Permusyawaratan Kelas</span>
+        </h1>
+        <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+          Wadah aspirasi dan pengawasan siswa SMA Negeri 1 Karanganyar untuk mewujudkan lingkungan sekolah yang lebih baik dan aspiratif.
+        </p>
+        <button
+          onClick={() => setCurrentPage('about')}
+          className="bg-green-500 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-green-600 transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300"
+        >
+          Pelajari Lebih Lanjut <span className="ml-2">&#8594;</span>
+        </button>
+      </div>
+    </section>
+  );
+
+  // About MPK Section Component
+  const AboutMPKSection = () => {
+    const [expandedItem, setExpandedItem] = useState(null);
+
+    const toggleExpand = (index) => {
+      setExpandedItem(expandedItem === index ? null : index);
+    };
+
+    return (
+      <section className="min-h-screen bg-blue-50 py-16 px-4 pt-24">
+        <div className="container mx-auto bg-white p-8 rounded-xl shadow-lg animate-fade-in">
+          <h2 className="text-4xl font-extrabold text-blue-700 text-center mb-10">Tentang MPK</h2>
+
+          <div className="mb-12">
+            <h3 className="text-3xl font-bold text-blue-600 mb-4">Visi & Misi</h3>
+            <div className="bg-sky-100 p-6 rounded-lg shadow-inner border-l-4 border-blue-400">
+              <p className="text-gray-800 mb-3 text-lg">
+                <span className="font-semibold text-blue-800">Visi:</span> Menjadi lembaga legislatif siswa yang aspiratif, akuntabel, dan berintegritas untuk mewujudkan tata kelola sekolah yang demokratis dan partisipatif.
+              </p>
+              <p className="text-gray-800 text-lg">
+                <span className="font-semibold text-blue-800">Misi:</span>
+                <ul className="list-disc list-inside mt-2 space-y-1">
+                  <li>Menampung dan menyalurkan aspirasi seluruh siswa.</li>
+                  <li>Mengawasi dan mengevaluasi kinerja OSIS secara objektif.</li>
+                  <li>Menjadi jembatan komunikasi antara siswa dengan pihak sekolah.</li>
+                  <li>Mengembangkan potensi kepemimpinan dan keorganisasian siswa.</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-3xl font-bold text-blue-600 mb-6">AD/ART MPK</h3>
+            <p className="text-gray-700 mb-6 italic">Klik pada judul Bab untuk melihat detail isinya.</p>
+            <div className="space-y-4">
+              {dummyData.adArt.map((item, index) => (
+                <div key={index} className="border border-blue-200 rounded-lg overflow-hidden shadow-sm">
+                  <button
+                    className="flex justify-between items-center w-full bg-blue-200 hover:bg-blue-300 p-4 text-left font-semibold text-blue-800 text-lg rounded-t-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    onClick={() => toggleExpand(index)}
+                  >
+                    <span>{item.title}</span>
+                    <span className="transform transition-transform duration-300">{expandedItem === index ? '▲' : '▼'}</span>
+                  </button>
+                  {expandedItem === index && (
+                    <div className="p-4 bg-white text-gray-700 border-t border-blue-200 animate-fade-in whitespace-pre-line">
+                      {/* Menggunakan whitespace-pre-line untuk menghargai baris baru dalam konten */}
+                      {item.content}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Structure Section Component
+  const StructureSection = () => {
+    const [expandedItem, setExpandedItem] = useState(null);
+
+    const toggleExpand = (index) => {
+      setExpandedItem(expandedItem === index ? null : index);
+    };
+
+    return (
+      <section className="min-h-screen bg-blue-100 py-16 px-4 pt-24">
+        <div className="container mx-auto bg-white p-8 rounded-xl shadow-lg animate-fade-in">
+          <h2 className="text-4xl font-extrabold text-blue-700 text-center mb-10">Struktur Organisasi & Kepanitiaan</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {dummyData.kepanitiaan.map((item, index) => (
+              <div key={index} className="bg-gradient-to-br from-sky-50 to-blue-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border border-blue-200 overflow-hidden">
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold text-blue-800 mb-2">{item.jabatan}</h3>
+                  <p className="text-lg text-gray-700 mb-3"><span className="font-semibold">Nama:</span> {item.nama}</p>
+
+                  {item.anggota && (
+                    <div className="mb-3">
+                      <p className="text-lg text-gray-700 font-semibold">Anggota:</p>
+                      <ul className="list-disc list-inside text-gray-600 mt-1">
+                        {item.anggota.map((member, i) => (
+                          <li key={i}>{member}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  <button
+                    className="mt-4 w-full bg-yellow-400 text-blue-900 font-semibold py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-600"
+                    onClick={() => toggleExpand(index)}
+                  >
+                    {expandedItem === index ? 'Sembunyikan Tugas' : 'Lihat Tugas'}
+                  </button>
+                </div>
+                {expandedItem === index && (
+                  <div className="bg-yellow-50 p-6 border-t-2 border-yellow-200 animate-fade-in">
+                    <p className="text-gray-800">
+                      <span className="font-semibold text-blue-800">Tugas:</span> {item.tugas}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Programs Section Component (GBHK)
+  const ProgramsSection = () => {
+    const [expandedItem, setExpandedItem] = useState(null);
+
+    const toggleExpand = (index) => {
+      setExpandedItem(expandedItem === index ? null : index);
+    };
+
+    return (
+      <section className="min-h-screen bg-green-50 py-16 px-4 pt-24">
+        <div className="container mx-auto bg-white p-8 rounded-xl shadow-lg animate-fade-in">
+          <h2 className="text-4xl font-extrabold text-green-700 text-center mb-10">Garis Besar Haluan Kerja (GBHK)</h2>
+          <p className="text-gray-700 text-center mb-8 text-lg">
+            Berikut adalah daftar program kerja wajib MPK SMA Negeri 1 Karanganyar dalam satu tahun.
+          </p>
+
+          <div className="space-y-6">
+            {dummyData.gbhk.map((program, index) => (
+              <div key={index} className="bg-gradient-to-br from-green-50 to-green-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border border-green-200 overflow-hidden">
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold text-green-800 mb-2">{program.program}</h3>
+                  <p className="text-lg text-gray-700 mb-2">
+                    <span className="font-semibold text-green-700">Status:</span> {program.status}
+                  </p>
+                  <p className="text-lg text-gray-700">
+                    <span className="font-semibold text-green-700">Semester:</span> {program.semester}
+                  </p>
+                  <button
+                    className="mt-4 w-full bg-yellow-400 text-green-900 font-semibold py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-600"
+                    onClick={() => toggleExpand(index)}
+                  >
+                    {expandedItem === index ? 'Sembunyikan Deskripsi' : 'Lihat Deskripsi'}
+                  </button>
+                </div>
+                {expandedItem === index && (
+                  <div className="bg-yellow-50 p-6 border-t-2 border-yellow-200 animate-fade-in">
+                    <p className="text-gray-800">
+                      <span className="font-semibold text-green-800">Deskripsi:</span> {program.deskripsi}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Members Section Component
+  const MembersSection = () => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedGeneration, setSelectedGeneration] = useState('all');
+
+    // Mengurutkan generasi secara menurun (dari yang terbaru ke terlama)
+    const generations = dummyData.members.map(g => g.generation);
+    const sortedGenerations = [...generations].sort((a, b) => b - a);
+
+    const filteredMembers = dummyData.members
+      .filter(gen => selectedGeneration === 'all' || gen.generation === parseInt(selectedGeneration))
+      .flatMap(gen => gen.members)
+      .filter(member =>
+        member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        member.jabatan.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        member.angkatan.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (member.kelas && member.kelas.toLowerCase().includes(searchTerm.toLowerCase())) // Tambahkan filter kelas
+      );
+
+    return (
+      <section className="min-h-screen bg-sky-50 py-16 px-4 pt-24">
+        <div className="container mx-auto bg-white p-8 rounded-xl shadow-lg animate-fade-in">
+          <h2 className="text-4xl font-extrabold text-blue-700 text-center mb-10">Anggota MPK</h2>
+          <p className="text-gray-700 text-center mb-8 text-lg">
+            Jelajahi daftar anggota MPK dari generasi pertama hingga sekarang.
+          </p>
+
+          <div className="flex flex-col md:flex-row gap-4 mb-8">
+            <input
+              type="text"
+              placeholder="Cari nama anggota, jabatan, angkatan, atau kelas..."
+              className="flex-grow p-3 rounded-lg border-2 border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 shadow-sm"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <select
+              className="p-3 rounded-lg border-2 border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 shadow-sm bg-white"
+              value={selectedGeneration}
+              onChange={(e) => setSelectedGeneration(e.target.value)}
+            >
+              <option value="all">Semua Generasi</option>
+              {sortedGenerations.map(gen => (
+                <option key={gen} value={gen}>Generasi {gen}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredMembers.length > 0 ? (
+              filteredMembers.map((member, index) => (
+                <div key={index} className="bg-gradient-to-br from-blue-50 to-sky-100 p-6 rounded-lg shadow-md border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <h3 className="text-xl font-bold text-blue-800 mb-2">{member.name}</h3>
+                  <p className="text-gray-700 text-base mb-1"><span className="font-semibold">Jabatan:</span> {member.jabatan}</p>
+                  {member.kelas && <p className="text-gray-700 text-base mb-1"><span className="font-semibold">Kelas:</span> {member.kelas}</p>}
+                  <p className="text-gray-700 text-base"><span className="font-semibold">Angkatan:</span> {member.angkatan}</p>
+                  <p className="text-blue-500 text-sm mt-2">Generasi {dummyData.members.find(g => g.members.includes(member))?.generation}</p>
+                </div>
+              ))
+            ) : (
+              <p className="col-span-full text-center text-gray-600 text-lg">Tidak ada anggota yang ditemukan.</p>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Render the current page based on state
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <HomeSection />;
+      case 'about':
+        return <AboutMPKSection />;
+      case 'structure':
+        return <StructureSection />;
+      case 'programs':
+        return <ProgramsSection />;
+      case 'members':
+        return <MembersSection />;
+      default:
+        return <HomeSection />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 font-inter">
+      <style>
+        {`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        .font-inter { font-family: 'Inter', sans-serif; }
+
+        /* Custom Tailwind-like animations */
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
+
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .animate-fade-in { animation: fade-in 0.6s ease-out forwards; }
+
+        @keyframes fade-in-down {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-down { animation: fade-in-down 0.3s ease-out forwards; }
+
+        /* Ensure smooth scrolling when navigating */
+        html {
+          scroll-behavior: smooth;
+        }
+
+        /* Basic responsive adjustments if needed, though Tailwind handles most */
+        @media (max-width: 768px) {
+          .text-5xl { font-size: 3rem; }
+          .text-4xl { font-size: 2.25rem; }
+        }
+        `}
+      </style>
+      {/* Tailwind CSS CDN */}
+      <script src="https://cdn.tailwindcss.com"></script>
+      <script src="https://unpkg.com/lucide-react@latest"></script>
+
+      <Navbar />
+      <main>
+        {renderPage()}
+      </main>
+      <footer className="bg-blue-800 text-white text-center p-6 mt-10 rounded-t-lg shadow-inner">
+        <p>&copy; {new Date().getFullYear()} MPK SMA Negeri 1 Karanganyar. All rights reserved.</p>
+        <p className="text-sm mt-2">Dibuat dengan semangat kepemimpinan dan aspirasi siswa.</p>
+      </footer>
+    </div>
+  );
+}
